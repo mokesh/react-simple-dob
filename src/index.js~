@@ -1,0 +1,60 @@
+import React from 'react';
+
+class SimpleDOB extends React.Component {
+ 
+    constructor() {
+        super();
+    }
+    
+    onDayKeyUp (e) {
+        const dobDayValue = e.target.value;
+        console.log(dobDayValue);
+        if(dobDayValue == 0 && dobDayValue.length == 2){
+            e.target.value = "";
+        }
+    }
+    
+    validateDOB (day,month,year) {
+        //DOB_CHANGE_FORMAT_OCT  
+        var isValidate = true;
+        var error_msg="";
+        return_params = {}; 
+        if (day!="" && month!="" && year!="") { 
+            var dateObject = new Date(); 
+            var min_year = dateObject.getFullYear() - 65;
+            var max_year = dateObject.getFullYear() - 18;
+            var maximum_value = 31;
+            maximum_value = dateValidate.calculateDays(month, year);  
+            if (year < min_year || year > max_year) { /* Check for year*/
+                error_msg = "Please enter valid year";
+                isValidate = false;
+            }else if(month <= 0 || month > 12) {  /* Check for month*/
+                error_msg = "Please enter valid month (Range 1-12)";
+                isValidate = false;
+            }else if(day > maximum_value) {   /* Check for Day*/ 
+                error_msg = "Please enter valid day(Range 1-"+maximum_value+")";
+                isValidate = false;
+            } 
+
+        } else {
+            error_msg = "Please enter a valid Date of birth";
+            isValidate = false;
+        }
+        return_params.error_msg = error_msg;
+        return_params.isValidate = isValidate; 
+        return return_params;
+    }
+
+    render() {
+        return (
+            <div>
+                <div id="sd-dob-container">
+                    <input id="sd-birth-day"   placeholder="dd"    name="birth-day"   maxLength="2" required="" type="tel" onKeyUp={this.onDayKeyUp.bind(this)}/><span>/</span>
+                    <input id="sd-birth-month" placeholder="mm"    name="birth-month" maxLength="2" required="" type="tel" /><span>/</span>
+                    <input id="sd-birth-year"  placeholder="yyyy"  name="birth-year"  maxLength="4" required="" type="tel"/>
+                </div>
+            </div>
+        );
+    }
+}
+export default SimpleDOB;
